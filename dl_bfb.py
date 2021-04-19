@@ -10,8 +10,8 @@ with open(sys.argv[1], "r") as payload:
     payloadRead = csv.reader(payload)
     next(payloadRead)
     for i in payloadRead:
-        useR.append(i[1])
-        pasW.append(i[2])
+        useR.append(i[0])
+        pasW.append(i[1])
 
 # Replace Unwanted Values
 useR = [u.replace("<N/A>", "") for u in useR]
@@ -26,10 +26,10 @@ x = len(payloadUser)
 
 print(f"Total Test Case: {x}")
 valueStatus = 0
-for i in range(120):
+for i in range(x):
     session = requests.session()
     if payloadUser[i] != "" and payloadPassword[i] != "":
-        response = session.post("https://prod-dexter.intelligentmachines.xyz/api/auth/token",
+        response = session.post(sys.argv[2],
                                 json={"username": payloadUser[i], "password": payloadPassword[i]})
     print(response.status_code)
     if response.status_code == 200:
